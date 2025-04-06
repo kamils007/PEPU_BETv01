@@ -122,7 +122,9 @@ const table: (string | number)[] = [
     "Mc", "Moscovium", "(288)", 15, 7,
     "Lv", "Livermorium", "(293)", 16, 7,
     "Ts", "Tennessine", "(294)", 17, 7,
-    "Og", "Oganesson", "(294)", 18, 7
+    "Og", "Oganesson", "(294)", 18, 7,
+    "Xx", "Unknownium", "-", 0, 0,
+    "Yy", "Mysteryon", "-", 0, 0
 ];
 
 // Zmienne globalne Three.js
@@ -132,6 +134,7 @@ let renderer: CSS3DRenderer;
 let controls: TrackballControls;
 let initialCameraPosition = new THREE.Vector3();
 let initialCameraRotation = new THREE.Euler();
+let focused: CSS3DObject | null = null;
 
 const objects: CSS3DObject[] = [];  // lista wszystkich obiektów CSS3D (elementów)
 const targets = {
@@ -159,12 +162,12 @@ function init() {
         // Główny kontener elementu
 		const mainContainer = document.createElement('div');
 		mainContainer.className = 'mainContainer';
-
+    /*
 		mainContainer.addEventListener('mousedown', () => {
 			console.log('Najechano myszką!');
 			moveToCenter(objectCSS); // jeśli chcesz coś zrobić
 		  });
-
+*/
 		// Ustaw losowy kolor tła (dla wizualizacji odrębności elementów)
 		mainContainer.style.backgroundColor = `rgba(0,127,127,${Math.random() * 0.5 + 0.25})`;
 		mainContainer.style.width = (screenWidth /10) + "px";
@@ -184,9 +187,11 @@ resetButton.style.display = 'none'; // 👈 ukryty na starcie
 
 
 resetButton.addEventListener('click', (e) => {
-	e.stopPropagation();       // 🚫 nie uruchamiaj moveToCenter
-	resetScene();              // 🔄 przywróć widok
-  });
+  e.stopPropagation();
+  if (focused) {
+    resetScene(focused);
+  }
+});
 
 mainContainer.appendChild(resetButton);
         
@@ -257,21 +262,26 @@ mainContainer.appendChild(resetButton);
 
         // Docelowa pozycja dla układu "table" (tabela okresowa)
         const objectTarget = new THREE.Object3D();
-        const col = table[i + 3] as number;
-        const row = table[i + 4] as number;
-        // Ustawienie pozycji docelowej na podstawie kolumny i wiersza (skalowane przez stałe)
-        const separationX = 140, separationY = 180;
-        // offsetX i offsetY wyśrodkowują układ względem "kontenera" (przybliżona połowa szerokości i wysokości tablicy)
-        const offsetX = 1330;
-        const offsetY = 990;
-        objectTarget.position.x = col * separationX - offsetX;
-        objectTarget.position.y = -row * separationY + offsetY;
-        objectTarget.position.z = 0;
+        const indexInGrid = index; // 0-based
+const columns = 12;
+const row = Math.floor(indexInGrid / columns);
+const col = indexInGrid % columns;
+
+const separationX = 150;
+const separationY = 180;
+const offsetX = (columns - 1) * separationX / 2;
+const offsetY = (Math.ceil(objects.length / columns) - 1) * separationY / 2+300;
+
+objectTarget.position.x = col * separationX - offsetX;
+objectTarget.position.y = -row * separationY + offsetY;
+objectTarget.position.z = 0;
+
         targets.table.push(objectTarget);
 
         // Kliknięcie w element - centrowanie kamery na danym obiekcie
-        mainContainer.addEventListener('click', () => {
-            moveToCenter(objectCSS);
+        mainContainer.addEventListener('mousedown', () => {
+       
+            const focused = moveToCenter(objectCSS);
         });
     }
 
@@ -381,10 +391,10 @@ function transform(targetArray: THREE.Object3D[], duration: number) {
 
 
 
-function moveToCenter(object: CSS3DObject): void {
+function moveToCenter(object: CSS3DObject):  CSS3DObject {
 
 	const mainContainer = object.element as HTMLElement;
-mainContainer.classList.add('active');
+        mainContainer.classList.add('active');
 
 
 	const targetPosition = object.position.clone();
@@ -430,10 +440,12 @@ mainContainer.classList.add('active');
     const btn = el.querySelector('button');
     if (btn) btn.style.display = obj === object ? 'block' : 'none';
   }
+ 
 	  controls.enabled = false;
 	 
 
 	  focusOnObject(object);
+    return object;
 
   }
   
@@ -454,56 +466,137 @@ mainContainer.classList.add('active');
 	}
   }
 
-  function resetScene(): void {
-	
-	// Oddalenie kamery na oryginalne miejsce
-	new Tween(camera.position, tweenGroup)
-	  .to({
-		x: initialCameraPosition.x,
-		y: initialCameraPosition.y,
-		z: initialCameraPosition.z
-	  }, 1000)
-	  .easing(Easing.Exponential.InOut)
-	  .start();
-  
-	// Przywrócenie celu kamery (gdzie patrzy)
-	new Tween(controls.target, tweenGroup)
-	  .to({ x: 0, y: 0, z: 0 }, 1000)
-	  .easing(Easing.Exponential.InOut)
-	  .start();
-  
-	// Włącz ponownie obracanie sceny
-  // Ukryj wszystkie przyciski
-  for (const obj of objects) {
-    const el = obj.element as HTMLElement;
-	el.classList.remove('active');
-    const btn = el.querySelector('button');
-    if (btn) btn.style.display = 'none';
+  function resetScene(object: CSS3DObject): void {
 
-    // Przywróć widoczność obiektów
-    el.style.filter = 'none';
-    el.style.opacity = '1';
-    el.style.pointerEvents = 'auto';
+    // Oddalenie kamery na oryginalne miejsce
+    new Tween(camera.position, tweenGroup)
+      .to({
+        x: initialCameraPosition.x,
+        y: initialCameraPosition.y,
+        z: initialCameraPosition.z
+      }, 1000)
+      .easing(Easing.Exponential.InOut)
+      .start();
+
+      // 🔄 ROTACJA kamery
+new Tween(camera.rotation, tweenGroup)
+.to({
+  x: initialCameraRotation.x,
+  y: initialCameraRotation.y,
+  z: initialCameraRotation.z
+}, 1000)
+.easing(Easing.Exponential.InOut)
+.start();
+  
+    // Przywrócenie celu kamery (gdzie patrzy)
+    new Tween(controls.target, tweenGroup)
+      .to({ x: 0, y: 0, z: 0 }, 1000)
+      .easing(Easing.Exponential.InOut)
+      .start();
+  
+    // Ukryj wszystkie przyciski
+    for (const obj of objects) {
+      const el = obj.element as HTMLElement;
+      el.classList.remove('active');
+      const btn = el.querySelector('button');
+      if (btn) btn.style.display = 'none';
+  
+      // Przywróć widoczność obiektów
+      el.style.filter = 'none';
+      el.style.opacity = '1';
+      el.style.pointerEvents = 'auto';
+    }
+  
+    // ❌ Usuwamy stare kontrolki
+   // controls.dispose();
+  
+    // ✅ Tworzymy nowe kontrolki
+   // controls = new TrackballControls(camera, renderer.domElement);
+  //  controls.rotateSpeed = 0.5; // przywróć własne ustawienia, jeśli masz więcej
+   // controls.target.set(0, 0, 0);              // 👈 to jest kluczowe!
+//camera.lookAt(controls.target);            // 👈 żeby ustawić kierunek
+
+   // controls.update();
+  
+     controls.enabled = true;
+  
+    // Odsłoń i odblokuj wszystkie elementy (dla pewności)
+    for (const obj of objects) {
+      const el = obj.element as HTMLElement;
+      el.style.transition = 'all 0.5s ease';
+      el.style.filter = 'none';
+      el.style.opacity = '1';
+      el.style.pointerEvents = 'auto';
+    }
   }
-
-	controls.enabled = true;
-
   
-	// Odsłoń i odblokuj wszystkie elementy
-	for (const obj of objects) {
-	  const el = obj.element as HTMLElement;
-	  el.style.transition = 'all 0.5s ease';
-	  el.style.filter = 'none';
-	  el.style.opacity = '1';
-	  el.style.pointerEvents = 'auto';
-	}
+  function resetScene_old(): void {
 
-	
+    // Oddalenie kamery na oryginalne miejsce
+    new Tween(camera.position, tweenGroup)
+      .to({
+        x: initialCameraPosition.x,
+        y: initialCameraPosition.y,
+        z: initialCameraPosition.z
+      }, 1000)
+      .easing(Easing.Exponential.InOut)
+      .start();
 
+      // 🔄 ROTACJA kamery
+new Tween(camera.rotation, tweenGroup)
+.to({
+  x: initialCameraRotation.x,
+  y: initialCameraRotation.y,
+  z: initialCameraRotation.z
+}, 1000)
+.easing(Easing.Exponential.InOut)
+.start();
+  
+    // Przywrócenie celu kamery (gdzie patrzy)
+    new Tween(controls.target, tweenGroup)
+      .to({ x: 0, y: 0, z: 0 }, 1000)
+      .easing(Easing.Exponential.InOut)
+      .start();
+  
+    // Ukryj wszystkie przyciski
+    for (const obj of objects) {
+      const el = obj.element as HTMLElement;
+      el.classList.remove('active');
+      const btn = el.querySelector('button');
+      if (btn) btn.style.display = 'none';
+  
+      // Przywróć widoczność obiektów
+      el.style.filter = 'none';
+      el.style.opacity = '1';
+      el.style.pointerEvents = 'auto';
+    }
+  
+    // ❌ Usuwamy stare kontrolki
+   // controls.dispose();
+  
+    // ✅ Tworzymy nowe kontrolki
+   // controls = new TrackballControls(camera, renderer.domElement);
+  //  controls.rotateSpeed = 0.5; // przywróć własne ustawienia, jeśli masz więcej
+   // controls.target.set(0, 0, 0);              // 👈 to jest kluczowe!
+//camera.lookAt(controls.target);            // 👈 żeby ustawić kierunek
+
+   // controls.update();
+  
+     controls.enabled = true;
+  
+    // Odsłoń i odblokuj wszystkie elementy (dla pewności)
+    for (const obj of objects) {
+      const el = obj.element as HTMLElement;
+      el.style.transition = 'all 0.5s ease';
+      el.style.filter = 'none';
+      el.style.opacity = '1';
+      el.style.pointerEvents = 'auto';
+    }
   }
   
+  
 
-  document.getElementById('resetBtn')?.addEventListener('click', resetScene);
+  document.getElementById('resetBtn')?.addEventListener('click', resetScene_old);
 
   
   
