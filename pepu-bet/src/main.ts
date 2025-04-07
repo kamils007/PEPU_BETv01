@@ -187,10 +187,10 @@ resetButton.style.display = 'none'; // 👈 ukryty na starcie
 
 
 resetButton.addEventListener('click', (e) => {
-  e.stopPropagation();
-  if (focused) {
-    resetScene(focused);
-  }
+  //e.stopPropagation();
+  console.log('Twój tekst tutaj');
+  resetScene_old();
+  
 });
 
 mainContainer.appendChild(resetButton);
@@ -583,6 +583,7 @@ new Tween(camera.rotation, tweenGroup)
    // controls.update();
   
      controls.enabled = true;
+     controls.reset();
   
     // Odsłoń i odblokuj wszystkie elementy (dla pewności)
     for (const obj of objects) {

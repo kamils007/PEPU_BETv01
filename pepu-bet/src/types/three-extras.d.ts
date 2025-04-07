@@ -33,5 +33,7 @@ declare module 'three/examples/jsm/controls/TrackballControls' {
     update(): void;
     dispose(): void;
     handleResize(): void;
+    /** 🔥 Dodaj to: */
+    reset(): void;
   }
 }
