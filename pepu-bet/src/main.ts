@@ -267,10 +267,13 @@ mainContainer.appendChild(resetButton);
         const objectTarget = new THREE.Object3D();
         const indexInGrid = index; // 0-based
 const columns = 12;
+/**/ 
 const row = Math.floor(indexInGrid / columns);
 const col = indexInGrid % columns;
+  // Szerokość kontenera w px (np. 8% szerokości ekranu)
+  const containerWidth = screenWidth * 0.1;
 
-const separationX = 250;
+const separationX = containerWidth*1.2;
 const separationY = 300;
 const offsetX = (columns - 1) * separationX / 2;
 const offsetY = (Math.ceil(objects.length / columns) - 1) * separationY / 2+500;
@@ -278,7 +281,16 @@ const offsetY = (Math.ceil(objects.length / columns) - 1) * separationY / 2+500;
 objectTarget.position.x = col * separationX - offsetX;
 objectTarget.position.y = -row * separationY + offsetY;
 objectTarget.position.z = 0;
+/**/
 
+
+//----------------
+//for (let i = 0; i < objects.length; i++) {
+//  const position = calculateGridPosition(i, objects.length, columns);
+
+ // objectTarget.position.set(position.x, position.y, position.z);
+//}
+//-----------------
         targets.table.push(objectTarget);
 
         // Kliknięcie w element - centrowanie kamery na danym obiekcie
@@ -637,6 +649,33 @@ function animate() {
 function render() {
     renderer.render(scene, camera);
 }
+
+
+function calculateGridPosition(index: number, totalItems: number, columns: number, spacingRatio = 0.1) {
+  const screenWidth = window.innerWidth;
+
+  // Całkowita przestrzeń na kontenery
+  const totalContainerSpace = screenWidth * (1 - spacingRatio);
+  const containerWidth = totalContainerSpace / columns;
+
+  // Całkowita przestrzeń na odstępy
+  const totalSpacing = screenWidth * spacingRatio;
+  const separationX = totalSpacing / (columns - 1);
+
+  // Pozycja w siatce
+  const col = index % columns;
+  const row = Math.floor(index / columns);
+
+  // Centrowanie siatki względem środka sceny
+  const offsetX = ((columns - 1) * (containerWidth + separationX)) / 2;
+
+  const posX = col * (containerWidth + separationX) - offsetX;
+  const posY = -row * (containerWidth + 100); // lub np. inna jednostka dla Y
+  const posZ = 0;
+
+  return { x: posX, y: posY, z: posZ };
+}
+
 
 // Inicjalizacja i start pętli animacji
 init();
