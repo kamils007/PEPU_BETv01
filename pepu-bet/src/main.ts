@@ -162,6 +162,7 @@ function init() {
         // Główny kontener elementu
 		const mainContainer = document.createElement('div');
 		mainContainer.className = 'mainContainer';
+    
     /*
 		mainContainer.addEventListener('mousedown', () => {
 			console.log('Najechano myszką!');
@@ -170,7 +171,9 @@ function init() {
 */
 		// Ustaw losowy kolor tła (dla wizualizacji odrębności elementów)
 		mainContainer.style.backgroundColor = `rgba(0,127,127,${Math.random() * 0.5 + 0.25})`;
-		mainContainer.style.width = (screenWidth /10) + "px";
+		//mainContainer.style.width = (screenWidth /10) + "px";
+    mainContainer.style.width = "10%";
+
 
 		// Dodaj przycisk RESET do kontenera
 const resetButton = document.createElement('button');
