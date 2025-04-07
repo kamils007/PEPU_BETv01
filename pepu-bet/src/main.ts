@@ -267,10 +267,10 @@ const columns = 12;
 const row = Math.floor(indexInGrid / columns);
 const col = indexInGrid % columns;
 
-const separationX = 150;
-const separationY = 180;
+const separationX = 250;
+const separationY = 300;
 const offsetX = (columns - 1) * separationX / 2;
-const offsetY = (Math.ceil(objects.length / columns) - 1) * separationY / 2+300;
+const offsetY = (Math.ceil(objects.length / columns) - 1) * separationY / 2+500;
 
 objectTarget.position.x = col * separationX - offsetX;
 objectTarget.position.y = -row * separationY + offsetY;
