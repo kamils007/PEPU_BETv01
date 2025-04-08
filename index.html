@@ -23,8 +23,11 @@
 		.mainContainer {
 			/*width: 120px;*/
 			/*height: 160px;*/
-			box-shadow: 0px 0px 12px rgba(255, 0, 55, 0.814);
+            display: flex;
+            flex-direction: column;
+			box-shadow: 0px 0px 12px rgba(0, 255, 81, 0.64);
 			border: 1px solid rgba(127,255,255,0.25);
+           
 			font-family: Helvetica, sans-serif;
 			text-align: center;
 			line-height: normal;
@@ -41,10 +44,10 @@
 			
 		}
 		.mainContainer.active:hover {
-  width: unset;
-  height: unset;
-  transform: none;
-}
+        width: unset;
+        height: unset;
+        transform: none;
+        }
 
 		#mainContainer:hover p {
 		
@@ -52,9 +55,9 @@
 		}
 
 		   /* Obszar komunikacyjny */
-		#communicationArea {
+		.communicationArea {
 			width: 100%;
-			background-color: #444;
+			background-color: #44444483;
 			color: #fff;
 			display: flex;
 			align-items: center;
@@ -72,7 +75,7 @@
 		}
 
 		  /* Kwadratowa matryca 3x3 */
-		  #squareScratch {
+		  .squareScratch {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
@@ -170,7 +173,7 @@
 			  }
 			}
 		  </script>
-		<script type="module" crossorigin src="/PEPU_BETv01/assets/index-BHMm9z6P.js"></script>
+		<script type="module" crossorigin src="/PEPU_BETv01/assets/index-BlJLcND0.js"></script>
 		<link rel="stylesheet" crossorigin href="/PEPU_BETv01/assets/index-CjCS5sN2.css">
 	</head>
 	<body>
