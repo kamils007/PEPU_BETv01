@@ -7,15 +7,22 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-      "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.2",
     "@types/three": "^0.175.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "gh-pages": "^6.3.0",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   },
   "dependencies": {
+    "@thirdweb-dev/react": "^4.9.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "thirdweb": "^5.93.17",
     "three": "^0.175.0"
   }
 }

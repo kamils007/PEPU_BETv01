@@ -16,7 +16,8 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "jsx": "react-jsx"   // 👈 DODAJ TO
   },
   "include": ["src", "src/types"]
 }
