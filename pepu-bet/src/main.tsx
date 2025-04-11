@@ -1,12 +1,17 @@
-import * as THREE from 'three';
-import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
-import { Group, Tween, Easing } from '@tweenjs/tween.js';
 
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import WalletButton from "./WalletButton";
+
+import * as THREE from 'three';
+// @ts-ignore
+import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
+// @ts-ignore
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import { Group, Tween, Easing } from '@tweenjs/tween.js';
+
+
 
 // Pełna tablica pierwiastków: [symbol, nazwa, masa atomowa, kolumna, wiersz]
 const table: (string | number)[] = [
@@ -688,17 +693,20 @@ function calculateGridPosition(index: number, totalItems: number, columns: numbe
 init();
 animate();
 
-//--------------
-
 
 const walletRoot = document.getElementById("wallet-button-root");
 if (walletRoot) {
   ReactDOM.createRoot(walletRoot).render(
     <React.StrictMode>
-      <ThirdwebProvider activeChain="sepolia" clientId="CnXawaLYJxbQ6k193U510uSCkYdDaKdt1O3EDspSDgKsWW_pBvTA3IgTygxC-HAagcuppltr6RQdz_7iLte2KQ">
+      <ThirdwebProvider
+        activeChain="sepolia"
+        clientId="CnXawaLYJxbQ6k193U510uSCkYdDaKdt1O3EDspSDgKsWW_pBvTA3IgTygxC-HAagcuppltr6RQdz_7iLte2KQ"
+      >
         <WalletButton />
       </ThirdwebProvider>
     </React.StrictMode>
   );
 }
-//-------------
+
+
+
