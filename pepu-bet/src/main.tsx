@@ -3,6 +3,11 @@ import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRe
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { Group, Tween, Easing } from '@tweenjs/tween.js';
 
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
+import WalletButton from "./WalletButton";
+
 // Pełna tablica pierwiastków: [symbol, nazwa, masa atomowa, kolumna, wiersz]
 const table: (string | number)[] = [
     "H", "Hydrogen", "1.00794", 1, 1,
@@ -684,10 +689,7 @@ init();
 animate();
 
 //--------------
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
-import WalletButton from "./WalletButton";
+
 
 const walletRoot = document.getElementById("wallet-button-root");
 if (walletRoot) {
