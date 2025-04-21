@@ -14,7 +14,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
 const queryClient = new QueryClient();
-import { pepeUnchained } from "./constants/chains";
+//import { pepeUnchained } from "./constants/chains";
 
 // Inicjalizacja tweenGroup
 const tweenGroup = new Group();
