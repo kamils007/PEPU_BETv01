@@ -7,17 +7,15 @@ import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRe
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { Group, Tween, Easing } from '@tweenjs/tween.js';
 
-import { transform } from './transform';
-import { moveToCenter, focusOnObject, resetSceneOld  } from './helpers';
-import { table } from './scratch/scratchData';
+import { transform } from '../src/scene/transform';
+import { moveToCenter, focusOnObject, resetSceneOld  } from '../src/scene/helpers';
+import { table } from '../src/scene/scratch/scratchData';
 
-import { render } from '../main'; // lub poprawna ścieżka, np. '../main'
+//import { render } from '../main'; // lub poprawna ścieżka, np. '../main'
 
-import { ThirdwebProvider, ThirdwebProvider as ThirdwebProviderV5 } from "thirdweb/react";
+import { ThirdwebProvider as ThirdwebProviderV5 } from "thirdweb/react";
 
-//import BuyButton from "../components/BuyButton";  // ścieżka zależna od Twojej struktury
-//import  BuyButton  from "../components/ConnectButton";
-
+import BuyButton from "../src/components/BuyButton";  // ścieżka zależna od Twojej struktury
 
 import ReactDOM from "react-dom/client";
 
@@ -27,34 +25,49 @@ import ReactDOM from "react-dom/client";
 
 
 
-export let camera: THREE.PerspectiveCamera;
-export let scene: THREE.Scene;
-export let renderer: CSS3DRenderer;
-export let controls: TrackballControls;
-export let initialCameraPosition = new THREE.Vector3();
-export let initialCameraRotation = new THREE.Euler();
+//export let camera: THREE.PerspectiveCamera;
+//export let scene: THREE.Scene;
+//export let renderer: CSS3DRenderer;
+//export let controls: TrackballControls;
+//export let initialCameraPosition = new THREE.Vector3();
+//export let initialCameraRotation = new THREE.Euler();
 
 // Status zakupu i wygranej
 let isBought = false;
 let isWinner = false;
 
-export const objects: CSS3DObject[] = [];
-export const targets = {
-  table: [] as THREE.Object3D[],
-  sphere: [] as THREE.Object3D[],
-  helix: [] as THREE.Object3D[],
-  grid: [] as THREE.Object3D[]
-};
+// export const objects: CSS3DObject[] = [];
+// export const targets = {
+//   table: [] as THREE.Object3D[],
+//   sphere: [] as THREE.Object3D[],
+//   helix: [] as THREE.Object3D[],
+//   grid: [] as THREE.Object3D[]
+// };
 
-const screenWidth = window.innerWidth;
+//const screenWidth = window.innerWidth;
 //const tweenGroup = new Group();
 
 export function init(tweenGroup: Group) {
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
   camera.position.z = 1500;
-  initialCameraPosition.copy(camera.position);
-  initialCameraRotation.copy(camera.rotation);
-  scene = new THREE.Scene();
+  const scene = new THREE.Scene();
+  const renderer = new CSS3DRenderer();
+  const controls = new TrackballControls(camera, renderer.domElement);
+  controls.rotateSpeed = 0.5;
+  const objects: CSS3DObject[] = [];
+  const targets = {
+    table: [] as THREE.Object3D[],
+    sphere: [] as THREE.Object3D[],
+    helix: [] as THREE.Object3D[],
+    grid: [] as THREE.Object3D[]
+  };
+  const initialCameraPosition = camera.position.clone();
+  const initialCameraRotation = camera.rotation.clone();
+  const screenWidth = window.innerWidth;
+  //initialCameraPosition.copy(camera.position);
+  //initialCameraRotation.copy(camera.rotation);
+
+  
 
   for (let i = 0, index = 0; i < table.length; i += 5, index++) {
     const mainContainer = document.createElement('div');
@@ -66,7 +79,7 @@ export function init(tweenGroup: Group) {
     resetButton.textContent = 'RESET';
     resetButton.style.display = 'none';
     //resetButton.addEventListener('click', () => resetScene());
-     resetButton.addEventListener('click', () => {resetSceneOld(camera, controls, tweenGroup, objects, initialCameraPosition, initialCameraRotation) });
+    resetButton.addEventListener('click', () => {resetSceneOld(camera, controls, tweenGroup, objects, initialCameraPosition, initialCameraRotation) });
     mainContainer.appendChild(resetButton);
 
     const communicationArea = document.createElement('div');
@@ -110,49 +123,27 @@ export function init(tweenGroup: Group) {
     number.textContent = (index + 1).toString();
     mainContainer.appendChild(number);
 
-  // Przycisk "Buy Scratch"
-// 💳 Dodajemy nasz przycisk zakupu
+//   // Przycisk "Buy Scratch"
 // const buyButtonRoot = document.createElement("div");
 // ReactDOM.createRoot(buyButtonRoot).render(
-//   <ThirdwebProvider>
+//   <React.StrictMode>
+//     <ThirdwebProviderV5>
 //       <BuyButton />
-//   </ThirdwebProvider>
-
+//     </ThirdwebProviderV5>
+//   </React.StrictMode>
 // );
-// mainContainer.appendChild(buyButtonRoot);
 
-
-// // Przycisk "Claim Reward"
-// const claimButton = document.createElement('button');
-// // claimButton.textContent = 'Claim Reward';
-// // //claimButton.style.display = 'none';
-// // claimButton.addEventListener('click', () => {
-// //   console.log('Reward claimed!');
-// //   messageParagraph.textContent = 'Reward claimed! 🎉';
-// //   //claimButton.disabled = true;
-// });
-// mainContainer.appendChild(claimButton);
+//mainContainer.appendChild(buyButtonRoot);
 
 // Przycisk "Claim Reward"
 const claimButton = document.createElement('button');
 claimButton.textContent = 'Claim Reward';
-claimButton.disabled = true; // domyślnie zablokowany, dopóki portfel się nie połączy
-mainContainer.appendChild(claimButton);
-
-function enableClaimButtonWhenReady() {
-  const handleBuy = (window as any).handleBuy;
-  if (typeof handleBuy === "function") {
-    claimButton.disabled = false;
-    claimButton.addEventListener('click', async () => {
-      await handleBuy();
-      messageParagraph.textContent = '✅ Zdrapka kupiona!';
-    });
-  } else {
-    setTimeout(enableClaimButtonWhenReady, 300); // próbuj co 300ms
-  }
-}
-enableClaimButtonWhenReady();
-
+claimButton.style.display = 'none';
+claimButton.addEventListener('click', () => {
+  console.log('Reward claimed!');
+  messageParagraph.textContent = 'Reward claimed! 🎉';
+  claimButton.disabled = true;
+});
 mainContainer.appendChild(claimButton);
 
     const objectCSS = new CSS3DObject(mainContainer);
@@ -215,7 +206,7 @@ mainContainer.appendChild(claimButton);
     targets.grid.push(objectGrid);
   }
 
-  renderer = new CSS3DRenderer();
+  
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.domElement.style.position = 'absolute';
   const containerElem = document.getElementById('container');
@@ -225,28 +216,42 @@ mainContainer.appendChild(claimButton);
     document.body.appendChild(renderer.domElement);
   }
 
-  controls = new TrackballControls(camera, renderer.domElement);
-  controls.rotateSpeed = 0.5;
+  //controls = new TrackballControls(camera, renderer.domElement);
+  //controls.rotateSpeed = 0.5;
 
   const tableButton = document.getElementById('table');
   const sphereButton = document.getElementById('sphere');
   const helixButton = document.getElementById('helix');
   const gridButton = document.getElementById('grid');
-  if (tableButton) tableButton.addEventListener('click', () => transform(targets.table, 3000, objects, tweenGroup, render));
-  if (sphereButton) sphereButton.addEventListener('click', () => transform(targets.sphere, 3000, objects, tweenGroup, render));
-  if (helixButton) helixButton.addEventListener('click', () => transform(targets.helix, 3000, objects, tweenGroup, render));
-  if (gridButton) gridButton.addEventListener('click', () => transform(targets.grid, 3000, objects, tweenGroup, render));
+
+  if (tableButton) {tableButton.addEventListener('click', () =>transform(targets.sphere, 3000, objects, tweenGroup, renderFn))};
+  if (sphereButton) {sphereButton.addEventListener('click', () =>transform(targets.sphere, 3000, objects, tweenGroup, renderFn))};
+  if (helixButton) {helixButton.addEventListener('click', () => transform(targets.sphere, 3000, objects, tweenGroup, renderFn))};
+  if (gridButton) {gridButton.addEventListener('click', () => transform(targets.sphere, 3000, objects, tweenGroup, renderFn))};
 
   
-  transform(targets.table, 3000, objects, tweenGroup, render);
-  window.addEventListener('resize', onWindowResize);
+  //transform(targets.table, 3000, objects, tweenGroup, render);
+   transform(targets.sphere, 3000, objects, tweenGroup, renderFn);
+   window.addEventListener("resize", () => onWindowResize(camera, renderer));
+
+  return {
+    scene,
+    camera,
+    renderer,
+    controls,
+    objects,
+    targets,
+    initialCameraPosition,
+    initialCameraRotation
+  };
+
 }
 
 function resetScene() {
   console.log('resetScene placeholder');
 }
 
-function onWindowResize() {
+function onWindowResize(camera: THREE.PerspectiveCamera, renderer: CSS3DRenderer) {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);

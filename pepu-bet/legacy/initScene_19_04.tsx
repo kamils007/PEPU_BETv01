@@ -4,16 +4,9 @@ import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRe
 // @ts-ignore
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { Group } from '@tweenjs/tween.js';
-import { transform } from './transform';
-import { moveToCenter, focusOnObject, resetSceneOld } from './helpers';
-import { render } from '../main';
-
-import { getContract, readContract } from "thirdweb";
-import { client } from "../thirdwebClient";
-import ABI from "../abi/ScratchCardNFT.json" assert { type: "json" };
-import type { Abi } from "viem";
-import ScratchCardNFT from "../abi/ScratchCardNFT.json" assert { type: "json" };
-
+import { transform } from '../src/scene/transform';
+import { moveToCenter, focusOnObject, resetSceneOld } from '../src/scene/helpers';
+import { render } from '../src/main';
 
 export let camera: THREE.PerspectiveCamera;
 export let scene: THREE.Scene;
@@ -38,8 +31,6 @@ const cardRegistry = new Map<number, {
   container: HTMLDivElement
 }>();
 
-const CONTRACT_ADDRESS = "0x04C89C64df89A47c35f4152C0591f70983CA01d1";
-
 export function init(tweenGroup: Group) {
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
   camera.position.z = 1500;
@@ -47,34 +38,20 @@ export function init(tweenGroup: Group) {
   initialCameraRotation.copy(camera.rotation);
   scene = new THREE.Scene();
 
-  async function loadNFTCards(tweenGroup: Group) {
-    const contract = getContract({
-      address: CONTRACT_ADDRESS,
-      abi: ABI as Abi,
-      client,
+  fetch(`${import.meta.env.BASE_URL}python/scratch_cards.json`)
+    .then((res) => res.json())
+    .then((allCards: { id: number; isWinner: boolean }[]) => {
+      const numberToLoad = 120;
+      const shuffled = allCards.sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, numberToLoad);
+
+      selected.forEach((card, index) => {
+        createScratchCard(card.id, card.isWinner, index, tweenGroup);
+      });
+
+      generateOtherLayouts(objects);
+      transform(targets.table, 3000, objects, tweenGroup, render);
     });
-  
-    const total = await readContract({
-      contract,
-      method: "nextCardId",
-    });
-  
-    const count = Number(total);
-    const targetAmount = 120;
-  
-    const ids: number[] = [];
-    for (let i = 0; i < targetAmount; i++) {
-      ids.push(i % count); // zapętlone tokenId
-    }
-  
-    ids.forEach((tokenId, index) => {
-      createScratchCard(tokenId, false, index, tweenGroup); // isWinner = false na razie
-    });
-  
-    generateOtherLayouts(objects);
-    transform(targets.table, 3000, objects, tweenGroup, render);
-  }
-  loadNFTCards(tweenGroup); 
 
   renderer = new CSS3DRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);

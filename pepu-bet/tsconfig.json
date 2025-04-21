@@ -20,5 +20,5 @@
     "baseUrl": ".",
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/types"]
+  "include": ["src", "src/types", "legacy/initScene_18_04.tsx", "legacy/initScene_19_04_v01.tsx", "legacy/initScene_19_04.tsx", "legacy/initScene_argments.tsx"]
 }
