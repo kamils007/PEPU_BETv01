@@ -1,16 +1,26 @@
+
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
-import WalletButton from "./WalletButton";
+
+import {ThirdwebProvider} from "thirdweb/react";
+
+import ConnectWallet from "./components/ConnectButton";
 
 import { init, camera, scene, renderer, controls, objects, targets, initialCameraPosition, initialCameraRotation } from './scene/initScene';
 import { resetSceneOld } from './scene/helpers';
 import { Group } from "@tweenjs/tween.js";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+
+const queryClient = new QueryClient();
+import { pepeUnchained } from "./constants/chains";
+
 // Inicjalizacja tweenGroup
 const tweenGroup = new Group();
 
 // Setup reset button handler
+
 function setupResetButton() {
   const resetBtn = document.getElementById('resetBtn');
   if (resetBtn) {
@@ -20,6 +30,7 @@ function setupResetButton() {
   }
 }
 
+// Funkcja animate() – główna pętla renderowania/animacji
 // Funkcja animate() – główna pętla renderowania/animacji
 function animate() {
   requestAnimationFrame(animate);
@@ -34,22 +45,33 @@ export function render(): void {
 }
 
 
+
+
+
 // Inicjalizacja aplikacji
+
 init(tweenGroup); // ← przekaż tweenGroup do środka
 setupResetButton();
 animate();
 
-// React Wallet UI
+// // React Wallet UI
+
 const walletRoot = document.getElementById("wallet-button-root");
+
 if (walletRoot) {
   ReactDOM.createRoot(walletRoot).render(
     <React.StrictMode>
-      <ThirdwebProvider
-        activeChain="sepolia"
-        clientId="CnXawaLYJxbQ6k193U510uSCkYdDaKdt1O3EDspSDgKsWW_pBvTA3IgTygxC-HAagcuppltr6RQdz_7iLte2KQ"
-      >
-        <WalletButton />
-      </ThirdwebProvider>
+  
+
+      {/* v5 provider */}
+     <ThirdwebProvider>
+        <ConnectWallet />
+        </ThirdwebProvider>
     </React.StrictMode>
   );
 }
+
+
+
+
+

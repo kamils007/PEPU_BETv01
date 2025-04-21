@@ -5,6 +5,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "moduleResolution": "Node",
     "esModuleInterop": true,
+    "resolveJsonModule": true,           // ← DODAJ TO!
     "skipLibCheck": true,
     "strict": true,
     "noUnusedLocals": false,
@@ -17,7 +18,7 @@
     "moduleDetection": "force",
     "noEmit": true,
     "baseUrl": ".",
-    "jsx": "react-jsx"   // 👈 DODAJ TO
+    "jsx": "react-jsx"
   },
   "include": ["src", "src/types"]
 }

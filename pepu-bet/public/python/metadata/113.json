@@ -1,0 +1,20 @@
+{
+  "name": "Zdrapka #113",
+  "description": "Unikalna zdrapka PEPU \u2013 odkryj co wygra\u0142e\u015b!",
+  "image": "ipfs://bafybeiaa2gmkdreooy6gouczboxjzwylqpfjkgxfjbimvwrzxf4w2dldiq/113.png",
+  "attributes": [
+    {
+      "trait_type": "ID",
+      "value": 113
+    },
+    {
+      "trait_type": "Status",
+      "value": "Przegrana"
+    },
+    {
+      "trait_type": "Typ",
+      "value": "Zdrapka PEPU"
+    }
+  ],
+  "isWinner": false
+}
