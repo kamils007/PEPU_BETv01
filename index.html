@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<title>three.js css3d - periodic table</title>
+	<title>PEPU SCRATCH - 1 000 000</title>
 	<meta charset="utf-8">
 	<!-- <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -170,15 +170,93 @@
 			color: #000000;
 			background-color: rgba(201, 226, 34, 0.912);
 		}
-		.my-cards {
-  perspective: 800px;
-  transform: rotateY(15deg) rotateX(5deg) scale(0.9);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
+		#resetBtn {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    z-index: 999;
+  }
+		#my-cards {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		top: 20px;
+		left: 20px;
+		/*width: 100px;*/
+		height: 250px;
+		perspective: 800px;
+	    background: rgba(0, 0, 0, 0.5); /* czarne tło z 50% przezroczystością */
+		box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+		border-radius: 12px;
+		padding: 1em; 
+	    z-index: 999;   
+		}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  scale: 0.5;
+  background: #ffcc00;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  backface-visibility: hidden;
+  
+  transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) rotateX(-7deg) translateZ(150px);
+  transition: transform 1s;
 }
-.my-cards {
-  transform: rotateY(0deg) rotateX(0deg) scale(1.05);
+
+.mainContainer.active.miniCard {
+  position: absolute;
+   width:100%;
+  /* height: 200px;  */
+  /* transform: translate(-0%, -50%) rotateY(calc(var(--i) * 72deg))  rotateX(-0deg) translateZ(300px); */
+  transform-origin: center center;
+  /* scale: 0.5; */
+  backface-visibility: hidden;
+  transition: transform 1s;
 }
+
+
+
+    /* ⬇️ Stylujemy tylko karuzelowe przyciski */
+    #prev-btn, #next-btn {
+      background: rgba(127,255,255,0.1);
+      color: rgba(127,255,255,0.75);
+      outline: 1px solid rgba(127,255,255,0.75);
+      border: 0px;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    #prev-btn:hover, #next-btn:hover {
+      background: rgba(127,255,255,0.25);
+    }
+	#carousel {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  perspective: 1000px;
+}
+
+#carousel-inner {
+  width: 100%;
+  height: 100%;
+  transform: translateZ(-400px); /* przesuwasz całą karuzelę do tyłu */
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
 	</style>
 
 
@@ -192,33 +270,93 @@
 			  }
 			}
 		  </script>
-		<script type="module" crossorigin src="/PEPU_BETv01/assets/index-rlvoDh60.js"></script>
+		<script type="module" crossorigin src="/PEPU_BETv01/assets/index-BUOZtvET.js"></script>
 		<link rel="stylesheet" crossorigin href="/PEPU_BETv01/assets/index-CjCS5sN2.css">
 	</head>
 	<body>
 		<!-- ✅ Wszystko co widoczne na stronie musi być TU -->
+		 	<!-- ✅ Kontener z lewej na moje zdrapki -->
+<!-- <div id="my-cards" style="position: absolute; top: 20px; left: 20px; width: 200px; background: rgb(0, 0, 0); padding: 1em; border-radius: 12px; box-shadow: 0 0 8px rgba(0,0,0,0.2); z-index: 999;">
+	<h3 style="margin-top: 0;">🎟 Moje zdrapki</h3>
+	<div id="my-cards-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+  </div> -->
+    <!-- ✅ Kontener na MOJE ZDRAPKI -->
+	<div id="my-cards">
+
+		<h1 style="color: white; margin: 0 0 10px;">🎟 Moje zdrapki</h3>
+	  
+		<!-- Przycisk przewijania w lewo -->
+		<button id="prev-btn" style="margin-bottom: 10px;">◀️</button>
+	  
+		<!-- Karuzela -->
+		<div id="carousel">
+		  <div id="carousel-inner">
+			<!-- Karty -->
+			<!-- <div class="card" style="--i:0;">Zdrapka 1</div>
+			<div class="card" style="--i:1;">Zdrapka 2</div>
+			<div class="card" style="--i:2;">Zdrapka 3</div>
+			<div class="card" style="--i:3;">Zdrapka 4</div>
+			<div class="card" style="--i:4;">Zdrapka 5</div>
+			<div class="card" style="--i:5;">Zdrapka 6</div>
+			<div class="card" style="--i:6;">Zdrapka 7</div>
+			<div class="card" style="--i:7;">Zdrapka 8</div> -->
+		  </div>
+		</div>
+	  
+		<!-- Przycisk przewijania w prawo -->
+		<button id="next-btn" style="margin-top: 10px;">▶️</button>
+	  
+	  </div>
 	
 		<div id="container"></div>
 	
 		<div id="menu">
 		  <button id="table">TABLE</button>
 		  <button id="sphere">SPHERE</button>
+		  <button id="resetBtn" style="z-index: 999;">RESET</button>
 		  <button id="helix">HELIX</button>
 		  <button id="grid">GRID</button>
-		  <button id="resetBtn" style="position: absolute; top: 10px; right: 10px; z-index: 999;">RESET</button>
+		
 		</div>
 	
-	<!-- ✅ Kontener z lewej na moje zdrapki -->
+	<!-- ✅ Kontener z lewej na moje zdrapki 
 <div id="my-cards" style="position: absolute; top: 20px; left: 20px; width: 200px; background: rgb(0, 0, 0); padding: 1em; border-radius: 12px; box-shadow: 0 0 8px rgba(0,0,0,0.2); z-index: 999;">
 	<h3 style="margin-top: 0;">🎟 Moje zdrapki</h3>
 	<div id="my-cards-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
   </div>
+  -->
   
 	
 		<!-- ✅ Portfel po prawej -->
 		<div id="wallet-button-root" style="position: absolute; top: 1rem; right: 1rem; z-index: 9999;"></div>
 	
 		<!-- Twój główny kod JS/TS -->
+
+		<!-- ✅ Skrypt do obracania karuzeli -->
+
+		<!--   	PRzeniesiony do osobnego pliku    -->
+
+		<!-- ✅ Skrypt do obracania karuzeli koniec -->
+
+
+<!-- <script>
+setInterval(() => {
+angle -= 0.5; // zmniejsz o 0.5 stopnia co 50ms
+updateRotation();
+}, 50);
+</script> -->
+
+		  <!-- <script>
+			cards.forEach(card => {
+  card.addEventListener('click', () => {
+    card.style.transform += ' scale(1.2)';
+    setTimeout(() => {
+      card.style.transform = card.style.transform.replace(' scale(1.2)', '');
+    }, 500); // po 0.5s wraca
+  });
+});
+		  </script> -->
+		
 	  </body>
 	</html>
 	
