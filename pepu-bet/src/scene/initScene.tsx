@@ -7,6 +7,8 @@ import { Group } from '@tweenjs/tween.js';
 import { transform } from './transform';
 import { moveToCenter, focusOnObject, resetSceneOld } from './helpers';
 import { render } from '../main';
+import { updateCardIndices, updateRotation } from './components/carousel';
+import { myScratchCards, MyScratchCard } from './components/myScratchCards';
 
 export let camera: THREE.PerspectiveCamera;
 export let scene: THREE.Scene;
@@ -118,7 +120,7 @@ function createScratchCard(id: number, isWinner: boolean, index: number, tweenGr
   mainContainer.appendChild(squareScratch);
 
   const claimButton = document.createElement('button');
-  claimButton.textContent = 'Claim Reward';
+  claimButton.textContent = 'Scratch Card Now!';
   claimButton.disabled = true;
   mainContainer.appendChild(claimButton);
 
@@ -132,6 +134,7 @@ function createScratchCard(id: number, isWinner: boolean, index: number, tweenGr
           () => {
             messageParagraph.textContent = `✅ Zdrapka #${id} kupiona!`;
             cloneScratchCardMini(mainContainer, id);
+            resetSceneOld(camera, controls, tweenGroup, objects, initialCameraPosition, initialCameraRotation);
             removeCardFromScene(id);
           },
           () => {
@@ -162,9 +165,9 @@ function createScratchCard(id: number, isWinner: boolean, index: number, tweenGr
   const col = index % columns;
   const containerWidth = screenWidth * 0.1;
   const separationX = containerWidth * 1.2;
-  const separationY = 300;
+  const separationY = 350;
   const offsetX = (columns - 1) * separationX / 2;
-  const offsetY = (Math.ceil(objects.length / columns) - 1) * separationY / 2 + 500;
+  const offsetY = (Math.ceil(objects.length / columns) - 1) * separationY / 2 + 600;
 
   objectTarget.position.x = col * separationX - offsetX;
   objectTarget.position.y = -row * separationY + offsetY;
@@ -189,23 +192,65 @@ export function removeCardFromScene(id: number) {
 }
 
 export function cloneScratchCardMini(originalContainer: HTMLDivElement, cardId: number) {
-  const container = document.getElementById("my-cards-list");
+  const container = document.getElementById('carousel-inner');
+  if (!container) return;
+  myScratchCards.push({ id: cardId, isWinner: true, claimed: false });
+  //const nextIndex = 2;// policz ile już jest kart
+  const clone = originalContainer.cloneNode(true) as HTMLDivElement;
+  clone.style.removeProperty('transform');
+  clone.style.removeProperty('width');
+
+  // clone.style.width = "100%";
+  // clone.style.scale="0.3";
+  // clone.style.top="50%";
+  // clone.style.left="50%";
+  // clone.className = 'card'; // Ustaw, że to ma być .card!
+  // clone.classList.add('mainContainer', 'active', 'miniCard');
+   
+ clone.classList.add('miniCard');
+ 
+  // clone.style.transformOrigin = "center center";
+  // clone.style.marginBottom = "0px"; // w karuzeli nie potrzebujesz marginesu
+  // clone.style.cursor = "pointer";
+  // clone.style.transform = `translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) rotateX(-7deg) translateZ(150px)`;
+ 
+  
+  // clone.textContent = `Zdrapka #${cardId}`; // dla przykładu, możesz mieć co chcesz
+  // clone.style.removeProperty('transform'); // CSS ustawi na podstawie --i
+  // clone.style.removeProperty('top');
+  // clone.style.removeProperty('left');
+  // clone.style.removeProperty('position');
+  // clone.style.removeProperty('scale');
+  
+  
+  container.appendChild(clone);
+
+    // Dynamiczna aktualizacja całej karuzeli:
+    updateCarouselLayout();
+
+  // Aktualizuj indeksy i układ po dodaniu
+  updateCardIndices();
+  updateRotation();
+}
+
+//------------foo-----------
+function updateCarouselLayout() {
+  const container = document.getElementById('carousel-inner');
   if (!container) return;
 
-  const clone = originalContainer.cloneNode(true) as HTMLDivElement;
-  clone.classList.add("miniCard");
-  clone.style.width = "100%";
-  clone.style.transform = "scale(0.4)";
-  clone.style.transformOrigin = "top left";
-  clone.style.marginBottom = "8px";
-  clone.style.cursor = "pointer";
+  const cards = container.querySelectorAll<HTMLElement>('.miniCard');
+  const count = cards.length;
+  const angleStep = 360 / count;
+  const minRadius = 300;
+  const baseSpacing = 30;
+  const radius = Math.max(minRadius, (baseSpacing * count) / (2 * Math.PI));
 
-  clone.addEventListener("click", () => {
-    alert(`Kliknięto miniaturę zdrapki #${cardId}`);
+  cards.forEach((card, i) => {
+    const angle = i * angleStep;
+    card.style.transform = `rotateY(${angle}deg) rotateX(-7deg) translateZ(${radius}px)`;
   });
-
-  container.appendChild(clone);
 }
+//--------------
 
 function generateOtherLayouts(objects: CSS3DObject[]) {
   const vector = new THREE.Vector3();
