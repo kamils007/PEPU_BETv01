@@ -264,6 +264,23 @@
   transform-style: preserve-3d;
   transition: transform 1s;
 }
+#my-prize-header {
+  position: absolute;
+  top: 50px;
+  left: 600px;
+  font-size: 48px;
+  font-weight: bold;
+  color: gold;
+  text-shadow: 2px 2px 8px black;
+  font-family: 'Arial Black', sans-serif;
+  z-index: 999;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.85; }
+  100% { transform: scale(1); opacity: 1; }
+}
 
 	</style>
 
@@ -278,7 +295,7 @@
 			  }
 			}
 		  </script>
-		<script type="module" crossorigin src="/PEPU_BETv01/assets/index-xq33wIdc.js"></script>
+		<script type="module" crossorigin src="/PEPU_BETv01/assets/index-B98dqSxD.js"></script>
 		<link rel="stylesheet" crossorigin href="/PEPU_BETv01/assets/index-CjCS5sN2.css">
 	</head>
 	<body>
@@ -289,6 +306,7 @@
 	<div id="my-cards-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
   </div> -->
     <!-- ✅ Kontener na MOJE ZDRAPKI -->
+	 <div id="my-prize-header">💰 1 000 000 PEPU 💰</div>
 	<div id="my-cards">
 
 		<h1 style="color: white; margin: 0 0 10px;">🎟 Moje zdrapki</h3>
