@@ -17,6 +17,9 @@ export let controls: TrackballControls;
 export let initialCameraPosition = new THREE.Vector3();
 export let initialCameraRotation = new THREE.Euler();
 
+const baseZ = 1500;
+const scaleFactor = window.innerWidth / 1920; // przyjmujemy 1920 jako bazową szerokość
+
 //export let tweenGroup: Group;
 
 
@@ -39,7 +42,8 @@ const cardRegistry = new Map<number, {
 export function init(tweenGroup: Group) {
   //tweenGroup = _tweenGroup;
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-  camera.position.z = 1500;
+  //camera.position.z = 1500;
+  camera.position.z = baseZ / scaleFactor;
   initialCameraPosition.copy(camera.position);
   initialCameraRotation.copy(camera.rotation);
   scene = new THREE.Scene();
