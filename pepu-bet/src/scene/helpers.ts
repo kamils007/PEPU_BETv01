@@ -176,3 +176,17 @@ export function resetSceneOld(
   controls.reset();
 }
 
+export function adjustCameraForScreen( camera: THREE.PerspectiveCamera,) {
+  const width = window.innerWidth;
+
+  if (width >= 1200) {
+    // Duże ekrany (np. monitor)
+    camera.position.z = 1500;
+  } else if (width >= 768) {
+    // Tablety poziomo
+    camera.position.z = 2500;
+  } else {
+    // Telefony – iPhone itd.
+    camera.position.z = 3000;
+  }
+}

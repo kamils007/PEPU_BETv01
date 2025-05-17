@@ -5,7 +5,7 @@ import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRe
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { Group } from '@tweenjs/tween.js';
 import { transform } from './transform';
-import { moveToCenter, focusOnObject, resetSceneOld } from './helpers';
+import { moveToCenter, focusOnObject, resetSceneOld, adjustCameraForScreen} from './helpers';
 import { render } from '../main';
 import { updateCardIndices, updateRotation } from './components/carousel';
 import { myScratchCards, MyScratchCard } from './components/myScratchCards';
@@ -43,7 +43,8 @@ export function init(tweenGroup: Group) {
   //tweenGroup = _tweenGroup;
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
   //camera.position.z = 1500;
-  camera.position.z = baseZ / scaleFactor;
+  //camera.position.z = baseZ / scaleFactor;
+  adjustCameraForScreen(camera);
   initialCameraPosition.copy(camera.position);
   initialCameraRotation.copy(camera.rotation);
   scene = new THREE.Scene();
