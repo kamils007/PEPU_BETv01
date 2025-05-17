@@ -17,6 +17,9 @@ export let controls: TrackballControls;
 export let initialCameraPosition = new THREE.Vector3();
 export let initialCameraRotation = new THREE.Euler();
 
+//export let tweenGroup: Group;
+
+
 export const objects: CSS3DObject[] = [];
 export const targets = {
   table: [] as THREE.Object3D[],
@@ -34,6 +37,7 @@ const cardRegistry = new Map<number, {
 }>();
 
 export function init(tweenGroup: Group) {
+  //tweenGroup = _tweenGroup;
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
   camera.position.z = 1500;
   initialCameraPosition.copy(camera.position);
@@ -84,7 +88,8 @@ function createScratchCard(id: number, isWinner: boolean, index: number, tweenGr
   const mainContainer = document.createElement('div');
   mainContainer.className = 'mainContainer';
   mainContainer.style.backgroundColor = `rgba(0,127,127,${Math.random() * 0.5 + 0.25})`;
-  mainContainer.style.width = '10%';
+  mainContainer.style.width = '170px';
+  mainContainer.style.maxHeight= '180px';
 
   const resetButton = document.createElement('button');
   resetButton.textContent = 'RESET';
@@ -104,6 +109,8 @@ function createScratchCard(id: number, isWinner: boolean, index: number, tweenGr
 
   const squareScratch = document.createElement('div');
   squareScratch.className = 'squareScratch';
+  squareScratch.style.height='70px';
+
   for (let j = 0; j < 9; j++) {
     const scratchContainer = document.createElement('div');
     scratchContainer.className = 'scratchContainer';
@@ -163,7 +170,7 @@ function createScratchCard(id: number, isWinner: boolean, index: number, tweenGr
   const objectTarget = new THREE.Object3D();
   const row = Math.floor(index / columns);
   const col = index % columns;
-  const containerWidth = screenWidth * 0.1;
+  const containerWidth = parseFloat(mainContainer.style.width);
   const separationX = containerWidth * 1.2;
   const separationY = 350;
   const offsetX = (columns - 1) * separationX / 2;
@@ -173,7 +180,22 @@ function createScratchCard(id: number, isWinner: boolean, index: number, tweenGr
   objectTarget.position.y = -row * separationY + offsetY;
   objectTarget.position.z = 0;
 
-  targets.table.push(objectTarget);
+// const tiltAngle = THREE.MathUtils.degToRad(30); // 30 stopni w radianach
+// const pivotY = -((Math.ceil(objects.length / columns) - 1) * separationY) + 600; // dolna linia
+
+// // // Przesuń względem osi obrotu, obróć, cofnij przesunięcie
+// objectTarget.position.sub(new THREE.Vector3(0, pivotY, 0));
+// objectTarget.position.applyAxisAngle(new THREE.Vector3(1, 0, 0), tiltAngle);
+// objectTarget.position.add(new THREE.Vector3(0, pivotY, 0));
+// // objectTarget.position.z = row * separationY * Math.tan(tiltAngle);
+
+// // Nachyl również samą kartę
+// objectTarget.rotation.x = -tiltAngle;
+
+// // // Przesunięcie w głąb sceny (Z) zależnie od rzędu i kąta
+
+// // objectTarget.position.z = row * separationY * Math.tan(tiltAngle);
+ targets.table.push(objectTarget);
 
   mainContainer.addEventListener('mousedown', () => {
     moveToCenter(objectCSS, camera, controls, tweenGroup, objects, focusOnObject);
@@ -289,8 +311,42 @@ function generateOtherLayouts(objects: CSS3DObject[]) {
   }
 }
 
+// function onWindowResize() {
+//   camera.aspect = window.innerWidth / window.innerHeight;
+//   camera.updateProjectionMatrix();
+//   renderer.setSize(window.innerWidth, window.innerHeight);
+// }
+
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // requestAnimationFrame(() => {
+  //   const container = document.querySelector('.mainContainer');
+  //   if (!container) return;
+
+  //   const containerWidth = (container as HTMLElement).offsetWidth;
+  //   const separationX = containerWidth * 1.2;
+  //   const separationY = 350;
+
+  //   const offsetX = (columns - 1) * separationX / 2;
+  //   const offsetY = (Math.ceil(objects.length / columns) - 1) * separationY / 2 + 600;
+
+  //   objects.forEach((object, index) => {
+  //     const row = Math.floor(index / columns);
+  //     const col = index % columns;
+
+  //     const target = targets.table[index];
+  //     if (!target) return;
+
+  //     target.position.x = col * separationX - offsetX;
+  //     target.position.y = -row * separationY + offsetY;
+  //   });
+
+  //   // 👉 teraz aktualizujemy pozycje fizyczne obiektów w scenie:
+  //   transform(targets.table, 1000, objects, tweenGroup, render);
+  // });
 }
+
+
