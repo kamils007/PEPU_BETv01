@@ -1,0 +1,962 @@
+[
+  {
+    "id": 0,
+    "isWinner": false
+  },
+  {
+    "id": 1,
+    "isWinner": false
+  },
+  {
+    "id": 2,
+    "isWinner": false
+  },
+  {
+    "id": 3,
+    "isWinner": false
+  },
+  {
+    "id": 4,
+    "isWinner": false
+  },
+  {
+    "id": 5,
+    "isWinner": false
+  },
+  {
+    "id": 6,
+    "isWinner": false
+  },
+  {
+    "id": 7,
+    "isWinner": true
+  },
+  {
+    "id": 8,
+    "isWinner": false
+  },
+  {
+    "id": 9,
+    "isWinner": false
+  },
+  {
+    "id": 10,
+    "isWinner": false
+  },
+  {
+    "id": 11,
+    "isWinner": false
+  },
+  {
+    "id": 12,
+    "isWinner": false
+  },
+  {
+    "id": 13,
+    "isWinner": false
+  },
+  {
+    "id": 14,
+    "isWinner": false
+  },
+  {
+    "id": 15,
+    "isWinner": false
+  },
+  {
+    "id": 16,
+    "isWinner": true
+  },
+  {
+    "id": 17,
+    "isWinner": false
+  },
+  {
+    "id": 18,
+    "isWinner": false
+  },
+  {
+    "id": 19,
+    "isWinner": false
+  },
+  {
+    "id": 20,
+    "isWinner": false
+  },
+  {
+    "id": 21,
+    "isWinner": false
+  },
+  {
+    "id": 22,
+    "isWinner": false
+  },
+  {
+    "id": 23,
+    "isWinner": true
+  },
+  {
+    "id": 24,
+    "isWinner": false
+  },
+  {
+    "id": 25,
+    "isWinner": true
+  },
+  {
+    "id": 26,
+    "isWinner": true
+  },
+  {
+    "id": 27,
+    "isWinner": false
+  },
+  {
+    "id": 28,
+    "isWinner": false
+  },
+  {
+    "id": 29,
+    "isWinner": true
+  },
+  {
+    "id": 30,
+    "isWinner": false
+  },
+  {
+    "id": 31,
+    "isWinner": false
+  },
+  {
+    "id": 32,
+    "isWinner": false
+  },
+  {
+    "id": 33,
+    "isWinner": true
+  },
+  {
+    "id": 34,
+    "isWinner": false
+  },
+  {
+    "id": 35,
+    "isWinner": false
+  },
+  {
+    "id": 36,
+    "isWinner": false
+  },
+  {
+    "id": 37,
+    "isWinner": false
+  },
+  {
+    "id": 38,
+    "isWinner": false
+  },
+  {
+    "id": 39,
+    "isWinner": false
+  },
+  {
+    "id": 40,
+    "isWinner": false
+  },
+  {
+    "id": 41,
+    "isWinner": false
+  },
+  {
+    "id": 42,
+    "isWinner": true
+  },
+  {
+    "id": 43,
+    "isWinner": true
+  },
+  {
+    "id": 44,
+    "isWinner": false
+  },
+  {
+    "id": 45,
+    "isWinner": true
+  },
+  {
+    "id": 46,
+    "isWinner": false
+  },
+  {
+    "id": 47,
+    "isWinner": false
+  },
+  {
+    "id": 48,
+    "isWinner": false
+  },
+  {
+    "id": 49,
+    "isWinner": false
+  },
+  {
+    "id": 50,
+    "isWinner": false
+  },
+  {
+    "id": 51,
+    "isWinner": false
+  },
+  {
+    "id": 52,
+    "isWinner": true
+  },
+  {
+    "id": 53,
+    "isWinner": false
+  },
+  {
+    "id": 54,
+    "isWinner": true
+  },
+  {
+    "id": 55,
+    "isWinner": false
+  },
+  {
+    "id": 56,
+    "isWinner": false
+  },
+  {
+    "id": 57,
+    "isWinner": true
+  },
+  {
+    "id": 58,
+    "isWinner": false
+  },
+  {
+    "id": 59,
+    "isWinner": false
+  },
+  {
+    "id": 60,
+    "isWinner": false
+  },
+  {
+    "id": 61,
+    "isWinner": false
+  },
+  {
+    "id": 62,
+    "isWinner": false
+  },
+  {
+    "id": 63,
+    "isWinner": false
+  },
+  {
+    "id": 64,
+    "isWinner": true
+  },
+  {
+    "id": 65,
+    "isWinner": false
+  },
+  {
+    "id": 66,
+    "isWinner": false
+  },
+  {
+    "id": 67,
+    "isWinner": false
+  },
+  {
+    "id": 68,
+    "isWinner": false
+  },
+  {
+    "id": 69,
+    "isWinner": false
+  },
+  {
+    "id": 70,
+    "isWinner": true
+  },
+  {
+    "id": 71,
+    "isWinner": false
+  },
+  {
+    "id": 72,
+    "isWinner": true
+  },
+  {
+    "id": 73,
+    "isWinner": false
+  },
+  {
+    "id": 74,
+    "isWinner": false
+  },
+  {
+    "id": 75,
+    "isWinner": false
+  },
+  {
+    "id": 76,
+    "isWinner": true
+  },
+  {
+    "id": 77,
+    "isWinner": false
+  },
+  {
+    "id": 78,
+    "isWinner": false
+  },
+  {
+    "id": 79,
+    "isWinner": false
+  },
+  {
+    "id": 80,
+    "isWinner": false
+  },
+  {
+    "id": 81,
+    "isWinner": false
+  },
+  {
+    "id": 82,
+    "isWinner": false
+  },
+  {
+    "id": 83,
+    "isWinner": true
+  },
+  {
+    "id": 84,
+    "isWinner": false
+  },
+  {
+    "id": 85,
+    "isWinner": true
+  },
+  {
+    "id": 86,
+    "isWinner": false
+  },
+  {
+    "id": 87,
+    "isWinner": true
+  },
+  {
+    "id": 88,
+    "isWinner": false
+  },
+  {
+    "id": 89,
+    "isWinner": true
+  },
+  {
+    "id": 90,
+    "isWinner": false
+  },
+  {
+    "id": 91,
+    "isWinner": false
+  },
+  {
+    "id": 92,
+    "isWinner": false
+  },
+  {
+    "id": 93,
+    "isWinner": false
+  },
+  {
+    "id": 94,
+    "isWinner": false
+  },
+  {
+    "id": 95,
+    "isWinner": true
+  },
+  {
+    "id": 96,
+    "isWinner": false
+  },
+  {
+    "id": 97,
+    "isWinner": false
+  },
+  {
+    "id": 98,
+    "isWinner": false
+  },
+  {
+    "id": 99,
+    "isWinner": false
+  },
+  {
+    "id": 100,
+    "isWinner": true
+  },
+  {
+    "id": 101,
+    "isWinner": false
+  },
+  {
+    "id": 102,
+    "isWinner": false
+  },
+  {
+    "id": 103,
+    "isWinner": false
+  },
+  {
+    "id": 104,
+    "isWinner": false
+  },
+  {
+    "id": 105,
+    "isWinner": false
+  },
+  {
+    "id": 106,
+    "isWinner": false
+  },
+  {
+    "id": 107,
+    "isWinner": false
+  },
+  {
+    "id": 108,
+    "isWinner": true
+  },
+  {
+    "id": 109,
+    "isWinner": false
+  },
+  {
+    "id": 110,
+    "isWinner": true
+  },
+  {
+    "id": 111,
+    "isWinner": false
+  },
+  {
+    "id": 112,
+    "isWinner": false
+  },
+  {
+    "id": 113,
+    "isWinner": true
+  },
+  {
+    "id": 114,
+    "isWinner": false
+  },
+  {
+    "id": 115,
+    "isWinner": false
+  },
+  {
+    "id": 116,
+    "isWinner": false
+  },
+  {
+    "id": 117,
+    "isWinner": true
+  },
+  {
+    "id": 118,
+    "isWinner": false
+  },
+  {
+    "id": 119,
+    "isWinner": false
+  },
+  {
+    "id": 120,
+    "isWinner": true
+  },
+  {
+    "id": 121,
+    "isWinner": false
+  },
+  {
+    "id": 122,
+    "isWinner": false
+  },
+  {
+    "id": 123,
+    "isWinner": false
+  },
+  {
+    "id": 124,
+    "isWinner": false
+  },
+  {
+    "id": 125,
+    "isWinner": false
+  },
+  {
+    "id": 126,
+    "isWinner": false
+  },
+  {
+    "id": 127,
+    "isWinner": false
+  },
+  {
+    "id": 128,
+    "isWinner": false
+  },
+  {
+    "id": 129,
+    "isWinner": false
+  },
+  {
+    "id": 130,
+    "isWinner": true
+  },
+  {
+    "id": 131,
+    "isWinner": false
+  },
+  {
+    "id": 132,
+    "isWinner": false
+  },
+  {
+    "id": 133,
+    "isWinner": true
+  },
+  {
+    "id": 134,
+    "isWinner": false
+  },
+  {
+    "id": 135,
+    "isWinner": false
+  },
+  {
+    "id": 136,
+    "isWinner": false
+  },
+  {
+    "id": 137,
+    "isWinner": false
+  },
+  {
+    "id": 138,
+    "isWinner": false
+  },
+  {
+    "id": 139,
+    "isWinner": true
+  },
+  {
+    "id": 140,
+    "isWinner": true
+  },
+  {
+    "id": 141,
+    "isWinner": false
+  },
+  {
+    "id": 142,
+    "isWinner": true
+  },
+  {
+    "id": 143,
+    "isWinner": false
+  },
+  {
+    "id": 144,
+    "isWinner": false
+  },
+  {
+    "id": 145,
+    "isWinner": true
+  },
+  {
+    "id": 146,
+    "isWinner": true
+  },
+  {
+    "id": 147,
+    "isWinner": true
+  },
+  {
+    "id": 148,
+    "isWinner": false
+  },
+  {
+    "id": 149,
+    "isWinner": false
+  },
+  {
+    "id": 150,
+    "isWinner": false
+  },
+  {
+    "id": 151,
+    "isWinner": false
+  },
+  {
+    "id": 152,
+    "isWinner": true
+  },
+  {
+    "id": 153,
+    "isWinner": false
+  },
+  {
+    "id": 154,
+    "isWinner": false
+  },
+  {
+    "id": 155,
+    "isWinner": false
+  },
+  {
+    "id": 156,
+    "isWinner": true
+  },
+  {
+    "id": 157,
+    "isWinner": false
+  },
+  {
+    "id": 158,
+    "isWinner": false
+  },
+  {
+    "id": 159,
+    "isWinner": false
+  },
+  {
+    "id": 160,
+    "isWinner": false
+  },
+  {
+    "id": 161,
+    "isWinner": true
+  },
+  {
+    "id": 162,
+    "isWinner": false
+  },
+  {
+    "id": 163,
+    "isWinner": true
+  },
+  {
+    "id": 164,
+    "isWinner": true
+  },
+  {
+    "id": 165,
+    "isWinner": true
+  },
+  {
+    "id": 166,
+    "isWinner": false
+  },
+  {
+    "id": 167,
+    "isWinner": true
+  },
+  {
+    "id": 168,
+    "isWinner": false
+  },
+  {
+    "id": 169,
+    "isWinner": false
+  },
+  {
+    "id": 170,
+    "isWinner": false
+  },
+  {
+    "id": 171,
+    "isWinner": true
+  },
+  {
+    "id": 172,
+    "isWinner": false
+  },
+  {
+    "id": 173,
+    "isWinner": false
+  },
+  {
+    "id": 174,
+    "isWinner": false
+  },
+  {
+    "id": 175,
+    "isWinner": false
+  },
+  {
+    "id": 176,
+    "isWinner": true
+  },
+  {
+    "id": 177,
+    "isWinner": false
+  },
+  {
+    "id": 178,
+    "isWinner": false
+  },
+  {
+    "id": 179,
+    "isWinner": false
+  },
+  {
+    "id": 180,
+    "isWinner": false
+  },
+  {
+    "id": 181,
+    "isWinner": false
+  },
+  {
+    "id": 182,
+    "isWinner": false
+  },
+  {
+    "id": 183,
+    "isWinner": true
+  },
+  {
+    "id": 184,
+    "isWinner": false
+  },
+  {
+    "id": 185,
+    "isWinner": false
+  },
+  {
+    "id": 186,
+    "isWinner": false
+  },
+  {
+    "id": 187,
+    "isWinner": true
+  },
+  {
+    "id": 188,
+    "isWinner": true
+  },
+  {
+    "id": 189,
+    "isWinner": true
+  },
+  {
+    "id": 190,
+    "isWinner": false
+  },
+  {
+    "id": 191,
+    "isWinner": false
+  },
+  {
+    "id": 192,
+    "isWinner": false
+  },
+  {
+    "id": 193,
+    "isWinner": false
+  },
+  {
+    "id": 194,
+    "isWinner": false
+  },
+  {
+    "id": 195,
+    "isWinner": false
+  },
+  {
+    "id": 196,
+    "isWinner": true
+  },
+  {
+    "id": 197,
+    "isWinner": false
+  },
+  {
+    "id": 198,
+    "isWinner": false
+  },
+  {
+    "id": 199,
+    "isWinner": true
+  },
+  {
+    "id": 200,
+    "isWinner": false
+  },
+  {
+    "id": 201,
+    "isWinner": true
+  },
+  {
+    "id": 202,
+    "isWinner": true
+  },
+  {
+    "id": 203,
+    "isWinner": false
+  },
+  {
+    "id": 204,
+    "isWinner": false
+  },
+  {
+    "id": 205,
+    "isWinner": false
+  },
+  {
+    "id": 206,
+    "isWinner": false
+  },
+  {
+    "id": 207,
+    "isWinner": false
+  },
+  {
+    "id": 208,
+    "isWinner": false
+  },
+  {
+    "id": 209,
+    "isWinner": true
+  },
+  {
+    "id": 210,
+    "isWinner": false
+  },
+  {
+    "id": 211,
+    "isWinner": false
+  },
+  {
+    "id": 212,
+    "isWinner": false
+  },
+  {
+    "id": 213,
+    "isWinner": false
+  },
+  {
+    "id": 214,
+    "isWinner": true
+  },
+  {
+    "id": 215,
+    "isWinner": false
+  },
+  {
+    "id": 216,
+    "isWinner": false
+  },
+  {
+    "id": 217,
+    "isWinner": false
+  },
+  {
+    "id": 218,
+    "isWinner": false
+  },
+  {
+    "id": 219,
+    "isWinner": false
+  },
+  {
+    "id": 220,
+    "isWinner": false
+  },
+  {
+    "id": 221,
+    "isWinner": false
+  },
+  {
+    "id": 222,
+    "isWinner": true
+  },
+  {
+    "id": 223,
+    "isWinner": false
+  },
+  {
+    "id": 224,
+    "isWinner": false
+  },
+  {
+    "id": 225,
+    "isWinner": false
+  },
+  {
+    "id": 226,
+    "isWinner": false
+  },
+  {
+    "id": 227,
+    "isWinner": false
+  },
+  {
+    "id": 228,
+    "isWinner": false
+  },
+  {
+    "id": 229,
+    "isWinner": false
+  },
+  {
+    "id": 230,
+    "isWinner": true
+  },
+  {
+    "id": 231,
+    "isWinner": false
+  },
+  {
+    "id": 232,
+    "isWinner": true
+  },
+  {
+    "id": 233,
+    "isWinner": false
+  },
+  {
+    "id": 234,
+    "isWinner": false
+  },
+  {
+    "id": 235,
+    "isWinner": true
+  },
+  {
+    "id": 236,
+    "isWinner": false
+  },
+  {
+    "id": 237,
+    "isWinner": false
+  },
+  {
+    "id": 238,
+    "isWinner": false
+  },
+  {
+    "id": 239,
+    "isWinner": false
+  }
+]

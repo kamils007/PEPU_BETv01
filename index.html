@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<head>
+	<title>PEPU SCRATCH - 1 000 000</title>
+	<meta charset="utf-8">
+	<!-- <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	
+
+	<!--<link type="text/css" rel="stylesheet" href="/style.css"> -->
+	 <link rel="stylesheet" href="/style.css" />
+	<style>
+
+#wallet-button-root {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 9999;
+      pointer-events: auto;
+    }
+		a {
+			color: #8ff;
+		}
+
+		#menu {
+			position: absolute;
+			bottom: 20px;
+			width: 100%;
+			text-align: center;
+		}
+
+		.mainContainer {
+			/*width: 10%;*/
+			/*height: 160px;*/
+            display: flex;
+            flex-direction: column;
+			box-shadow: 0px 0px 12px rgba(0, 255, 81, 0.64);
+			border: 1px solid rgba(127,255,255,0.25);
+			border-radius: 12px; /* Zaokrąglanie narożnika */
+			overflow: hidden; /* Przycina wszystko co wystaje poza mainContainer */
+           
+			font-family: Helvetica, sans-serif;
+			text-align: center;
+			line-height: normal;
+			cursor: default;
+			
+		}
+
+		.mainContainer:hover {
+			/*width: 30%;*/
+			/*height: 200%;*/
+			box-shadow: 0px 0px 50px rgba(98, 255, 0, 0.649);
+			/*box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); /* świecący neonowy błękit */
+			border: 2px solid rgba(170, 255, 127, 0.75);
+		
+		}
+		/* .mainContainer.active:hover {
+        width: unset;
+        height: unset;
+        transform: none;
+        } */
+
+		#mainContainer:hover p {
+		
+			font-size: 16px;
+		}
+
+		p {
+    display: block;
+    margin-block-start: 0.3em;
+    margin-block-end: 0.3em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+		.scratchMessage {
+		font-size: 16px;
+		color: #00ffaa;
+	    text-align: center;
+		}
+
+		
+
+		   /* Obszar komunikacyjny */
+		.communicationArea {
+			width: 100%;
+			background-color: #44444483;
+			color: #fff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 5px;
+			/*padding: 1px;*/
+			box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+			min-height: 1px; /* Zapewnia przestrzeń na wyśrodkowanie */
+			margin: 0 auto; /* Wyśrodkowanie na stronie */
+			text-align: center; /* Wyrównanie tekstu */
+		}
+		#communicationArea p {
+  			
+    		font-size: 6px;
+		}
+		
+		  /* Kwadratowa matryca 3x3 */
+		  .squareScratch {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            background-color: #ffcc00a8;
+			
+            padding: 5px;
+           /* border-radius: 8px;*/
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+            justify-items: center; /* Wyśrodkowanie elementów wewnątrz siatki */
+        }
+
+		.scratchContainer {
+    position: relative;
+    width: 20px; /* Stała szerokość kontenera */
+    height: 20px; /* Stała wysokość kontenera */
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: rgba(250, 204, 0, 0.155);
+}
+
+.symbolCanvas, .scratchCanvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+
+			#mainContainer .number {
+				position: absolute;
+				top: 20px;
+				right: 20px;
+				font-size: 12px;
+				color: rgba(127,255,255,0.75);
+			}
+
+			#mainContainer .symbol {
+				position: absolute;
+				top: 40px;
+				left: 0px;
+				right: 0px;
+				font-size: 60px;
+				font-weight: bold;
+				color: rgba(255,255,255,0.75);
+				text-shadow: 0 0 10px rgba(0,255,255,0.95);
+			}
+
+			#mainContainer .details {
+				position: absolute;
+				bottom: 15px;
+				left: 0px;
+				right: 0px;
+				font-size: 12px;
+				color: rgba(127,255,255,0.75);
+			}
+
+		button {
+			color: rgba(127,255,255,0.75);
+			background: transparent;
+			outline: 1px solid rgba(127,255,255,0.75);
+			border: 0px;
+			padding: 5px 10px;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: rgba(0,255,255,0.5);
+		}
+
+		button:active {
+			color: #000000;
+			background-color: rgba(201, 226, 34, 0.912);
+		}
+		#resetBtn {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    z-index: 999;
+  }
+		#my-cards {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		top: 20px;
+		left: 20px;
+		/*width: 100px;*/
+		height: 250px;
+		perspective: 800px;
+	    background: rgba(0, 0, 0, 0.5); /* czarne tło z 50% przezroczystością */
+		box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+		border-radius: 12px;
+		padding: 1em; 
+	    z-index: 999;   
+		}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  scale: 0.5;
+  background: #ffcc00;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  backface-visibility: hidden;
+  
+  transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) rotateX(-7deg) translateZ(150px);
+  transition: transform 1s;
+}
+
+.mainContainer.active.miniCard {
+  position: absolute;
+  /* width:100%; */
+  /* height: 200px;  */
+  /* transform: translate(-0%, -50%) rotateY(calc(var(--i) * 72deg))  rotateX(-0deg) translateZ(300px); */
+  transform-origin: center center;
+  /* scale: 0.5; */
+  backface-visibility: hidden;
+  transition: transform 1s;
+}
+
+
+
+    /* ⬇️ Stylujemy tylko karuzelowe przyciski */
+    #prev-btn, #next-btn {
+      background: rgba(127,255,255,0.1);
+      color: rgba(127,255,255,0.75);
+      outline: 1px solid rgba(127,255,255,0.75);
+      border: 0px;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    #prev-btn:hover, #next-btn:hover {
+      background: rgba(127,255,255,0.25);
+    }
+	#carousel {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  perspective: 1000px;
+}
+
+#carousel-inner {
+  width: 100%;
+  height: 100%;
+  transform: translateZ(-400px); /* przesuwasz całą karuzelę do tyłu */
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+#my-prize-header {
+  position: absolute;
+  top: 50px;
+  left: 600px;
+  font-size: 48px;
+  font-weight: bold;
+  color: gold;
+  text-shadow: 2px 2px 8px black;
+  font-family: 'Arial Black', sans-serif;
+  z-index: 999;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.85; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+	</style>
+
+
+
+		<script type="importmap">
+			{
+			  "imports": {
+				"three": "https://unpkg.com/three/build/three.module.js",
+				"three/addons/": "https://unpkg.com/three/examples/jsm/"
+			  }
+			}
+		  </script>
+	</head>
+	<body>
+		<!-- ✅ Wszystko co widoczne na stronie musi być TU -->
+		 	<!-- ✅ Kontener z lewej na moje zdrapki -->
+<!-- <div id="my-cards" style="position: absolute; top: 20px; left: 20px; width: 200px; background: rgb(0, 0, 0); padding: 1em; border-radius: 12px; box-shadow: 0 0 8px rgba(0,0,0,0.2); z-index: 999;">
+	<h3 style="margin-top: 0;">🎟 Moje zdrapki</h3>
+	<div id="my-cards-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+  </div> -->
+    <!-- ✅ Kontener na MOJE ZDRAPKI -->
+	 <div id="my-prize-header">💰 1 000 000 PEPU 💰</div>
+	<div id="my-cards">
+
+		<h1 style="color: white; margin: 0 0 10px;">🎟 Moje zdrapki</h3>
+	  
+		<!-- Przycisk przewijania w lewo -->
+		<button id="prev-btn" style="margin-bottom: 10px;">◀️</button>
+	  
+		<!-- Karuzela -->
+		<div id="carousel">
+		  <div id="carousel-inner">
+			<!-- Karty -->
+			<!-- <div class="card" style="--i:0;">Zdrapka 1</div>
+			<div class="card" style="--i:1;">Zdrapka 2</div>
+			<div class="card" style="--i:2;">Zdrapka 3</div>
+			<div class="card" style="--i:3;">Zdrapka 4</div>
+			<div class="card" style="--i:4;">Zdrapka 5</div>
+			<div class="card" style="--i:5;">Zdrapka 6</div>
+			<div class="card" style="--i:6;">Zdrapka 7</div>
+			<div class="card" style="--i:7;">Zdrapka 8</div> -->
+		  </div>
+		</div>
+	  
+		<!-- Przycisk przewijania w prawo -->
+		<button id="next-btn" style="margin-top: 10px;">▶️</button>
+	  
+	  </div>
+	
+		<div id="container"></div>
+	
+		<div id="menu">
+		  <button id="table">TABLE</button>
+		  <button id="sphere">SPHERE</button>
+		  <button id="resetBtn" style="z-index: 999;">RESET</button>
+		  <button id="helix">HELIX</button>
+		  <button id="grid">GRID</button>
+		
+		</div>
+	
+	<!-- ✅ Kontener z lewej na moje zdrapki 
+<div id="my-cards" style="position: absolute; top: 20px; left: 20px; width: 200px; background: rgb(0, 0, 0); padding: 1em; border-radius: 12px; box-shadow: 0 0 8px rgba(0,0,0,0.2); z-index: 999;">
+	<h3 style="margin-top: 0;">🎟 Moje zdrapki</h3>
+	<div id="my-cards-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+  </div>
+  -->
+  
+	
+		<!-- ✅ Portfel po prawej -->
+		<div id="wallet-button-root" style="position: absolute; top: 1rem; right: 1rem; z-index: 9999;"></div>
+	
+		<!-- Twój główny kod JS/TS -->
+		<script type="module" src="/src/main.tsx"></script>
+
+		<!-- ✅ Skrypt do obracania karuzeli -->
+
+		<!--   	PRzeniesiony do osobnego pliku    -->
+
+		<!-- ✅ Skrypt do obracania karuzeli koniec -->
+
+
+<!-- <script>
+setInterval(() => {
+angle -= 0.5; // zmniejsz o 0.5 stopnia co 50ms
+updateRotation();
+}, 50);
+</script> -->
+
+		  <!-- <script>
+			cards.forEach(card => {
+  card.addEventListener('click', () => {
+    card.style.transform += ' scale(1.2)';
+    setTimeout(() => {
+      card.style.transform = card.style.transform.replace(' scale(1.2)', '');
+    }, 500); // po 0.5s wraca
+  });
+});
+		  </script> -->
+		
+	  </body>
+	</html>
+	
+		
+</html>
