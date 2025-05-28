@@ -34,13 +34,11 @@ export let initialCameraPosition = new THREE.Vector3();
 export let initialCameraRotation = new THREE.Euler();
 
 
-const baseZ = 1500;
-const scaleFactor = window.innerWidth / 1920; // przyjmujemy 1920 jako bazową szerokość
+ const baseZ = 1500;
+ const scaleFactor = window.innerWidth / 1920; // przyjmujemy 1920 jako bazową szerokość
  const loader = new GLTFLoader();
 //export let tweenGroup: Group;
 export let mixer: AnimationMixer;
-
-
 export const objects: CSS3DObject[] = [];
 export const targets = {
   table: [] as THREE.Object3D[],
@@ -51,6 +49,9 @@ export const targets = {
 const clock = new THREE.Clock();
 const screenWidth = window.innerWidth;
 const columns = 12;
+// Poza funkcją, np. globalnie
+let soldierMesh: THREE.Object3D;
+let moveSpeed = 1;
 
 const cardRegistry = new Map<number, {
   object: CSS3DObject,
@@ -99,7 +100,7 @@ export function initMixedScene(tweenGroup: Group) {
 				// webglScene.add( mesh );
  
 
- console.log('👉 Próba ładowania /models/character.glb');
+ //console.log('👉 Próba ładowania /models/character.glb');
 
 const loader = new GLTFLoader();
 let mixer: AnimationMixer;
@@ -108,30 +109,33 @@ loader.load(
   import.meta.env.BASE_URL + 'models/Soldier.glb',
   (gltf) => {
     console.log('✅ DUCK załadowany:', gltf);
-    const model = gltf.scene;
+    soldierMesh = gltf.scene;
+    soldierMesh.scale.set(50, 50, 50); // jeżeli model może być mały
+    soldierMesh.position.set(0, -1000, 0); // startowa pozycja
+    soldierMesh.rotation.x = Math.PI/2; // obrót o 180° – przodem do kamery
+    soldierMesh.castShadow=true;
     
-    webglScene.add(model);
+    webglScene.add(soldierMesh);
     //webglScene.add(new THREE.AxesHelper(100));
-    model.scale.set(50, 50, 50); // jeżeli model może być mały
-    model.rotation.x = Math.PI/2; // obrót o 180° – przodem do kamery
-    model.castShadow=true;
+    
+    
 
-    model.traverse((child) => {
+    soldierMesh.traverse((child) => {
   if ((child as THREE.SkinnedMesh).isSkinnedMesh) {
-    console.log('✅ SkinnedMesh znaleziony:', child.name);
+   // console.log('✅ SkinnedMesh znaleziony:', child.name);
   } else {
-    console.log('🔍 Child:', child.type, child.name);
+   // console.log('🔍 Child:', child.type, child.name);
   }
 });
 
-const skeleton = new THREE.SkeletonHelper( model );
+const skeleton = new THREE.SkeletonHelper( soldierMesh );
 skeleton.visible = false;
 webglScene.add( skeleton );
    
 
   if (gltf.animations.length > 0) {
-  mixer = new AnimationMixer(model);
-  const action = mixer.clipAction(gltf.animations[0]);
+  mixer = new AnimationMixer(soldierMesh);
+  const action = mixer.clipAction(gltf.animations[3]);
 
   action.reset();
   action.play();
@@ -140,7 +144,7 @@ webglScene.add( skeleton );
   action.setEffectiveTimeScale(1);
   action.setEffectiveWeight(1);
 
-  console.log("✅ Animacja aktywowana:", gltf.animations[0].name);
+  //console.log("✅ Animacja aktywowana:", gltf.animations[0].name);
 }
   },
   undefined,
@@ -170,6 +174,8 @@ webglRenderer.setClearColor(0x000000, 0); // tło przezroczyste
 webglRenderer.setSize(window.innerWidth, window.innerHeight);
 webglRenderer.domElement.style.position = 'absolute';
 webglRenderer.domElement.style.zIndex = '1';
+//webglRenderer.domElement.style.pointerEvents = 'none';
+
 
 
 // CSS3D
@@ -214,7 +220,13 @@ if (containerElem) {
     if (mixer) mixer.update(delta);
     tweenGroup.update();
     controls.update();
+
+     if (soldierMesh) {
+    // przesuwa żołnierza wzdłuż osi y
+    soldierMesh.position.y += moveSpeed * delta * 60;
+  }
     render();
+    
   });
 
 
