@@ -9,9 +9,14 @@ import { moveToCenter, focusOnObject, resetSceneOld, adjustCameraForScreen} from
 import { render } from '../main';
 import { updateCardIndices, updateRotation } from './components/carousel';
 import { myScratchCards, MyScratchCard } from './components/myScratchCards';
+import { startLoop } from './startLoop';
 
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+//import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { AnimationMixer } from 'three';
+
+import { initSoldier } from './initSoldier';
+import { setupMovementHandlers } from '../controls/soldierMovement';
+import { walletActions } from 'viem';
 
 // export let camera: THREE.PerspectiveCamera;
 // export let scene: THREE.Scene;
@@ -36,7 +41,7 @@ export let initialCameraRotation = new THREE.Euler();
 
  const baseZ = 1500;
  const scaleFactor = window.innerWidth / 1920; // przyjmujemy 1920 jako bazową szerokość
- const loader = new GLTFLoader();
+// const loader = new GLTFLoader();
 //export let tweenGroup: Group;
 export let mixer: AnimationMixer;
 export const objects: CSS3DObject[] = [];
@@ -53,19 +58,18 @@ const columns = 12;
 let soldierMesh: THREE.Object3D;
 let moveSpeed = 1;
 
+let soldierLoaded = false;
+let cardsTransformed = false;
+
 const cardRegistry = new Map<number, {
   object: CSS3DObject,
   container: HTMLDivElement
 }>();
 
 export function initMixedScene(tweenGroup: Group) {
-  //tweenGroup = _tweenGroup;
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
   // camera.position.set( 1, 2, - 3 );
 	// camera.lookAt( 0, 1, 0 );
-
-        
-
   //camera.position.z = 1500;
   //camera.position.z = baseZ / scaleFactor;
   adjustCameraForScreen(camera);
@@ -75,7 +79,7 @@ export function initMixedScene(tweenGroup: Group) {
   cssScene = new THREE.Scene();
 
   //webglScene.background = new THREE.Color( 0xa0a0a0 );
-	// 			 webglScene.fog = new THREE.Fog( 0xa0a0a0, 10, 50 );
+	//webglScene.fog = new THREE.Fog( 0xa0a0a0, 10, 50 );
 
   const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x8d8d8d, 3 );
 				hemiLight.position.set( 0, 20, 0 );
@@ -102,71 +106,125 @@ export function initMixedScene(tweenGroup: Group) {
 
  //console.log('👉 Próba ładowania /models/character.glb');
 
-const loader = new GLTFLoader();
+//const loader = new GLTFLoader();
 let mixer: AnimationMixer;
 
-loader.load(
-  import.meta.env.BASE_URL + 'models/Soldier.glb',
-  (gltf) => {
-    console.log('✅ DUCK załadowany:', gltf);
-    soldierMesh = gltf.scene;
-    soldierMesh.scale.set(50, 50, 50); // jeżeli model może być mały
-    soldierMesh.position.set(0, -1000, 0); // startowa pozycja
-    soldierMesh.rotation.x = Math.PI/2; // obrót o 180° – przodem do kamery
-    soldierMesh.castShadow=true;
+// loader.load(
+//   import.meta.env.BASE_URL + 'models/Soldier.glb',
+//   (gltf) => {
+//     console.log('✅ DUCK załadowany:', gltf);
+//     soldierMesh = gltf.scene;
+//     soldierMesh.scale.set(50, 50, 50); // jeżeli model może być mały
+//     soldierMesh.position.set(0, -1000, 0); // startowa pozycja
+//     soldierMesh.rotation.x = Math.PI/2; // obrót o 180° – przodem do kamery
+//     soldierMesh.castShadow=true;
     
-    webglScene.add(soldierMesh);
-    //webglScene.add(new THREE.AxesHelper(100));
+//     webglScene.add(soldierMesh);
+//     //webglScene.add(new THREE.AxesHelper(100));
     
-    
+//     soldierMesh.traverse((child) => {
+//   if ((child as THREE.SkinnedMesh).isSkinnedMesh) {
+//    // console.log('✅ SkinnedMesh znaleziony:', child.name);
+//   } else {
+//    // console.log('🔍 Child:', child.type, child.name);
+//   }
+// });
 
-    soldierMesh.traverse((child) => {
-  if ((child as THREE.SkinnedMesh).isSkinnedMesh) {
-   // console.log('✅ SkinnedMesh znaleziony:', child.name);
-  } else {
-   // console.log('🔍 Child:', child.type, child.name);
-  }
-});
-
-const skeleton = new THREE.SkeletonHelper( soldierMesh );
-skeleton.visible = false;
-webglScene.add( skeleton );
+// const skeleton = new THREE.SkeletonHelper( soldierMesh );
+// skeleton.visible = false;
+// webglScene.add( skeleton );
    
 
-  if (gltf.animations.length > 0) {
-  mixer = new AnimationMixer(soldierMesh);
-  const action = mixer.clipAction(gltf.animations[3]);
+//   if (gltf.animations.length > 0) {
+//   mixer = new AnimationMixer(soldierMesh);
+//   const action = mixer.clipAction(gltf.animations[3]);
 
-  action.reset();
-  action.play();
+//   action.reset();
+//   action.play();
 
-  action.enabled = true;
-  action.setEffectiveTimeScale(1);
-  action.setEffectiveWeight(1);
+//   action.enabled = true;
+//   action.setEffectiveTimeScale(1);
+//   action.setEffectiveWeight(1);
 
-  //console.log("✅ Animacja aktywowana:", gltf.animations[0].name);
-}
-  },
-  undefined,
-  (err) => {
-    console.error('❌ Błąd ładowania Box.glb:', err);
-  }
-);
+//   //console.log("✅ Animacja aktywowana:", gltf.animations[0].name);
+// }
+//   },
+//   undefined,
+//   (err) => {
+//     console.error('❌ Błąd ładowania Box.glb:', err);
+//   }
+// );
 
-  fetch(`${import.meta.env.BASE_URL}python/scratch_cards.json`)
-    .then((res) => res.json())
-    .then((allCards: { id: number; isWinner: boolean }[]) => {
-      const numberToLoad = 120;
-      const shuffled = allCards.sort(() => 0.5 - Math.random());
-      const selected = shuffled.slice(0, numberToLoad);
+  // fetch(`${import.meta.env.BASE_URL}python/scratch_cards.json`)
+  //   .then((res) => res.json())
+  //   .then((allCards: { id: number; isWinner: boolean }[]) => {
+  //     const numberToLoad = 120;
+  //     const shuffled = allCards.sort(() => 0.5 - Math.random());
+  //     const selected = shuffled.slice(0, numberToLoad);
 
-      selected.forEach((card, index) => {
-        createScratchCard(card.id, card.isWinner, index, tweenGroup);
-      });
+  //     selected.forEach((card, index) => {
+  //       createScratchCard(card.id, card.isWinner, index, tweenGroup);
+  //     });
 
-      generateOtherLayouts(objects);
-      transform(targets.table, 3000, objects, tweenGroup, render);
+  //     generateOtherLayouts(objects);
+  //     transform(targets.table, 3000, objects, tweenGroup, render);
+  //   });
+  
+fetch(`${import.meta.env.BASE_URL}python/scratch_cards.json`)
+  .then((res) => res.json())
+  .then(async (allCards: { id: number; isWinner: boolean }[]) =>  {
+    const numberToLoad = 120;
+    const shuffled = allCards.sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, numberToLoad);
+
+    selected.forEach((card, index) => {
+      createScratchCard(card.id, card.isWinner, index, tweenGroup);
     });
+
+    generateOtherLayouts(objects);
+
+    transform(targets.table, 3000, objects, tweenGroup, async () => {
+      cardsTransformed = true;
+      // if (soldierLoaded) {
+      //   webglScene.add(soldierMesh);
+      //   console.log('👨‍✈️ Żołnierz dodany po transformacji kart');
+      // }
+    });
+
+    // 👉 Ładowanie żołnierza
+    const { soldierMesh, mixer, walkAction, idleAction } = await initSoldier(
+      webglScene,
+      import.meta.env.BASE_URL + 'models/Soldier.glb'
+    );
+
+    // soldierMesh = soldierMesh.soldierMesh;
+    // mixer = soldier.mixer;
+
+    soldierLoaded = true;
+    if (cardsTransformed) {
+      webglScene.add(soldierMesh);
+      console.log('👨‍✈️ Żołnierz dodany po transformacji kart');
+    }
+
+    // 🔥 Dopiero teraz wywołaj startLoop!
+   const { getMoving } = setupMovementHandlers(walkAction, idleAction);
+
+    startLoop(
+      webglRenderer,
+      {
+        webglScene,
+        cssScene,
+        cssRenderer,
+      },
+      camera,
+      mixer,
+      soldierMesh,
+      getMoving,
+      tweenGroup,
+        controls // 👈 tutaj
+    );
+  });
+
 
 // WebGL
 webglRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -215,19 +273,34 @@ if (containerElem) {
   
 
   // 🚀 Tutaj aktywuj loop
-  webglRenderer.setAnimationLoop(() => {
-    const delta = clock.getDelta();
-    if (mixer) mixer.update(delta);
-    tweenGroup.update();
-    controls.update();
+  // webglRenderer.setAnimationLoop(() => {
+  //   const delta = clock.getDelta();
+  //   if (mixer) mixer.update(delta);
+  //   tweenGroup.update();
+  //   controls.update();
 
-     if (soldierMesh) {
-    // przesuwa żołnierza wzdłuż osi y
-    soldierMesh.position.y += moveSpeed * delta * 60;
-  }
-    render();
+  //    if (soldierMesh) {
+  //   // przesuwa żołnierza wzdłuż osi y
+  //   soldierMesh.position.y += moveSpeed * delta * 60;
+  // }
+  //   render();
     
-  });
+  // });
+      // 👉 Obsługa ruchu „W”
+//     const { getMoving } = setupMovementHandlers();
+//   startLoop(
+//   webglRenderer,
+//   {
+//     webglScene,
+//     cssScene,
+//     cssRenderer,
+//   },
+//   camera,
+//   mixer!,
+//   soldierMesh,
+//   getMoving,
+//   tweenGroup
+// );
 
 
 }
@@ -501,4 +574,3 @@ function onWindowResize() {
 }
 
 
-console.log("🚀 THREE.js wersja:", THREE.REVISION);
