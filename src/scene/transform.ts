@@ -20,36 +20,48 @@ export function transform(
 ): void {
   tweenGroup.removeAll();
 
+  let completed = 0;
+
   for (let i = 0; i < objects.length; i++) {
     const object = objects[i];
     const target = targetArray[i];
+
+    const tweenDuration = Math.random() * duration + duration;
+
+    let finishedTweens = 0;
+
+    const onTweenFinished = () => {
+      finishedTweens++;
+      if (finishedTweens === 2) {
+        completed++;
+        if (completed === objects.length) {
+          renderCallback(); // ✅ dopiero po WSZYSTKICH obiektach (position + rotation)
+          
+        }
+      }
+    };
 
     const tweenPos = new Tween(object.position)
       .to({
         x: target.position.x,
         y: target.position.y,
         z: target.position.z
-      }, Math.random() * duration + duration)
-      .easing(Easing.Exponential.InOut);
+      }, tweenDuration)
+      .easing(Easing.Exponential.InOut)
+      .onComplete(onTweenFinished);
 
     const tweenRot = new Tween(object.rotation)
       .to({
         x: target.rotation.x,
         y: target.rotation.y,
         z: target.rotation.z
-      }, Math.random() * duration + duration)
-      .easing(Easing.Exponential.InOut);
+      }, tweenDuration)
+      .easing(Easing.Exponential.InOut)
+      .onComplete(onTweenFinished);
 
     tweenGroup.add(tweenPos);
     tweenGroup.add(tweenRot);
     tweenPos.start();
     tweenRot.start();
   }
-
-  const tweenUpdate = new Tween({})
-    .to({}, duration * 2)
-    .onUpdate(renderCallback);
-
-  tweenGroup.add(tweenUpdate);
-  tweenUpdate.start();
 }

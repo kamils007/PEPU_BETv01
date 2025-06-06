@@ -68,11 +68,12 @@ const cardRegistry = new Map<number, {
 
 export function initMixedScene(tweenGroup: Group) {
    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-  // camera.position.set( 1, 2, - 3 );
-	// camera.lookAt( 0, 1, 0 );
-  //camera.position.z = 1500;
-  //camera.position.z = baseZ / scaleFactor;
+
+	//camera.lookAt( 0, 0, 1); 	Gdy nie używasz controls
+
+ //----Ustawienia Kamery----
   adjustCameraForScreen(camera);
+//----
   initialCameraPosition.copy(camera.position);
   initialCameraRotation.copy(camera.rotation);
   webglScene = new THREE.Scene();
@@ -183,28 +184,22 @@ fetch(`${import.meta.env.BASE_URL}python/scratch_cards.json`)
 
     generateOtherLayouts(objects);
 
-    transform(targets.table, 3000, objects, tweenGroup, async () => {
-      cardsTransformed = true;
-      // if (soldierLoaded) {
-      //   webglScene.add(soldierMesh);
-      //   console.log('👨‍✈️ Żołnierz dodany po transformacji kart');
-      // }
-    });
+   // 👉 Ładowanie żołnierza
+   const { soldierMesh, mixer, walkAction, idleAction } = await initSoldier(
+    webglScene,
+    import.meta.env.BASE_URL + 'models/model.glb'
+      );
 
-    // 👉 Ładowanie żołnierza
-    const { soldierMesh, mixer, walkAction, idleAction } = await initSoldier(
-      webglScene,
-      import.meta.env.BASE_URL + 'models/Soldier.glb'
-    );
+  transform(targets.table, 3000, objects, tweenGroup, async () => {
+  cardsTransformed = true;
+  soldierLoaded = true;
 
-    // soldierMesh = soldierMesh.soldierMesh;
-    // mixer = soldier.mixer;
+  if (cardsTransformed) {
+    webglScene.add(soldierMesh);
+    console.log("👨‍✈️ Żołnierz dodany po transformacji kart");
+  }
+});
 
-    soldierLoaded = true;
-    if (cardsTransformed) {
-      webglScene.add(soldierMesh);
-      console.log('👨‍✈️ Żołnierz dodany po transformacji kart');
-    }
 
     // 🔥 Dopiero teraz wywołaj startLoop!
    const { getMoving } = setupMovementHandlers(walkAction, idleAction);
@@ -258,6 +253,11 @@ if (containerElem) {
 
   controls = new TrackballControls(camera, webglRenderer.domElement);
   controls.rotateSpeed = 0.5;
+
+  camera.position.set(0, -1300, 250);
+  camera.lookAt(0, 0, 0);
+  controls.target.set(0, 0, 0);
+  controls.update();
 
   const tableButton = document.getElementById('table');
   const sphereButton = document.getElementById('sphere');

@@ -12,11 +12,12 @@ export async function initSoldier(scene: THREE.Scene, url: string) {
   modelSoldier.scale.set(50, 50, 50); // jeżeli model może być mały
   modelSoldier.position.set(0, -1000, 0); // startowa pozycja
   modelSoldier.rotation.x = Math.PI/2; // obrót o 180° – przodem do kamery
+   modelSoldier.rotation.y = Math.PI; // obrót o 90° – przodem do kamery
   modelSoldier.castShadow=true;
-  scene.add(modelSoldier);
+  //scene.add(modelSoldier);
 
   const mixer = new THREE.AnimationMixer(modelSoldier);
-  const walkAction = mixer.clipAction(gltf.animations[3]);
+  const walkAction = mixer.clipAction(gltf.animations[0]);
   const idleAction = mixer.clipAction(gltf.animations[0]);
   idleAction.play(); // domyślnie stoi
 
